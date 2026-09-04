@@ -263,6 +263,24 @@ export default function DashboardPage() {
     }
   }, [fetchDashboardData]);
 
+  const handleDeleteCase = useCallback(async (caseId: string) => {
+    try {
+      const res = await fetch(`/api/cases/${caseId}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        triggerToast(json.error || 'Failed to delete task');
+        return;
+      }
+
+      setSelectedCase(null);
+      triggerToast('Task deleted successfully');
+      await fetchDashboardData();
+    } catch (e) {
+      console.error('API delete task error:', e);
+      triggerToast('Failed to delete task');
+    }
+  }, [fetchDashboardData]);
+
   // Update Case Status Handler
   const handleUpdateStatus = useCallback(
     async (caseId: string, newStatus: CaseStatus) => {
@@ -561,6 +579,7 @@ export default function DashboardPage() {
           onAssignTeam={handleAssignTeam}
           onAddNote={handleAddNote}
           onCloseTask={handleCloseTask}
+          onDeleteCase={handleDeleteCase}
         />
       )}
 

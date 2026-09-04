@@ -14,6 +14,7 @@ import {
   CheckCircle,
   AlertTriangle,
   Flame,
+  Trash2,
 } from 'lucide-react';
 import { EfuCase, Team, CaseStatus } from '@/types/database';
 import { formatDate, formatTime, getEfuStatusStyle } from '@/lib/utils';
@@ -28,6 +29,7 @@ interface CaseDetailsModalProps {
   onAssignTeam: (caseId: string, teamId: string) => void;
   onAddNote: (caseId: string, noteText: string) => void;
   onCloseTask?: (caseId: string) => void;
+  onDeleteCase?: (caseId: string) => void;
 }
 
 export default function CaseDetailsModal({
@@ -38,6 +40,7 @@ export default function CaseDetailsModal({
   onAssignTeam,
   onAddNote,
   onCloseTask,
+  onDeleteCase,
 }: CaseDetailsModalProps) {
   const [activeTab, setActiveTab] = useState<'DETAILS' | 'NOTES'>('DETAILS');
   const [noteInput, setNoteInput] = useState('');
@@ -374,6 +377,19 @@ export default function CaseDetailsModal({
                   className="w-full py-3 bg-gradient-to-r from-rose-600 via-rose-500 to-red-600 hover:from-rose-500 hover:to-red-500 text-white font-mono font-bold text-xs rounded-xl shadow-[0_4px_20px_rgba(244,63,94,0.4)] hover:scale-[1.01] transition-all flex items-center justify-center gap-2"
                 >
                   📦 CLOSE & ARCHIVE TASK
+                </button>
+              )}
+
+              {onDeleteCase && (
+                <button
+                  onClick={() => {
+                    if (confirm('Delete this case permanently? This action cannot be undone.')) {
+                      onDeleteCase(caseData.id);
+                    }
+                  }}
+                  className="w-full py-3 bg-rose-950/40 border border-rose-500/60 hover:bg-rose-600 text-rose-300 hover:text-white font-mono font-bold text-xs rounded-xl transition-all flex items-center justify-center gap-2"
+                >
+                  <Trash2 className="w-4 h-4" /> DELETE CASE PERMANENTLY
                 </button>
               )}
             </div>

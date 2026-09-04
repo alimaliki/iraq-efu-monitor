@@ -1,5 +1,6 @@
 import { NextResponse } from 'next/server';
 import { dbStore } from '@/lib/dbStore';
+import { verifyServerPermission } from '@/lib/auth/session';
 
 export async function GET(
   request: Request,
@@ -38,6 +39,9 @@ export async function DELETE(
   request: Request,
   { params }: { params: Promise<{ id: string }> }
 ) {
+  const guard = await verifyServerPermission('DELETE_CASE');
+  if (!guard.authorized) return guard.errorResponse!;
+
   try {
     const { id } = await params;
     const deleted = await dbStore.deleteCase(id);

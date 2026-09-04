@@ -543,6 +543,37 @@ class DatabaseStore {
 
   // Basic Case Mutations
   async updateCaseStatus(caseId: string, status?: string, teamId?: string, escalation?: string) {
+    if (this.isSupabaseConfigured()) {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(caseId);
+      const updateData: Record<string, string | null> = {};
+      if (status) updateData.status = status;
+      if (escalation) updateData.escalation = escalation;
+      if (teamId !== undefined) updateData.assigned_team_id = teamId || null;
+
+      const isClosed = ['CLOSED', 'RESOLVED'].includes((status || '').toUpperCase()) || escalation?.toUpperCase() === 'CLOSED';
+      const isOpen = escalation?.toUpperCase() === 'OPEN' && !isClosed;
+      if (isClosed) {
+        updateData.closed_at = new Date().toISOString();
+        updateData.archived_at = new Date().toISOString();
+      } else if (isOpen) {
+        updateData.closed_at = null;
+        updateData.archived_at = null;
+        updateData.closed_by = null;
+        updateData.archived_by = null;
+      }
+      updateData.updated_at = new Date().toISOString();
+
+      const query = getSupabaseAdmin().from('cases').update(updateData);
+      const { data, error } = await (isUuid ? query.eq('id', caseId) : query.eq('case_id', caseId))
+        .select('*, company:companies(*), province:provinces(*), assigned_team:teams(*)')
+        .single();
+
+      if (error) throw new Error(`Failed to update case: ${error.message}`);
+      this.casesList = this.casesList.filter((c) => c.id !== data.id && c.case_id !== data.case_id);
+      this.casesList.unshift(data as EfuCase);
+      return data as EfuCase;
+    }
+
     const idx = this.casesList.findIndex((c) => c.id === caseId || c.case_id === caseId);
     if (idx === -1) throw new Error('Case not found');
 
@@ -572,6 +603,18 @@ class DatabaseStore {
   }
 
   async deleteCase(caseId: string) {
+    if (this.isSupabaseConfigured()) {
+      const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[1-5][0-9a-f]{3}-[89ab][0-9a-f]{3}-[0-9a-f]{12}$/i.test(caseId);
+      const query = getSupabaseAdmin().from('cases').delete();
+      const { data, error } = await (isUuid ? query.eq('id', caseId) : query.eq('case_id', caseId))
+        .select()
+        .single();
+
+      if (error) throw new Error(`Failed to delete case: ${error.message}`);
+      this.casesList = this.casesList.filter((c) => c.id !== data.id && c.case_id !== data.case_id);
+      return data as EfuCase;
+    }
+
     const idx = this.casesList.findIndex((c) => c.id === caseId || c.case_id === caseId);
     if (idx === -1) throw new Error('Case not found');
     return this.casesList.splice(idx, 1)[0];
