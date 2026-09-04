@@ -573,10 +573,8 @@ export default function DashboardPage() {
       {selectedCase && (
         <CaseDetailsModal
           caseData={selectedCase}
-          teams={teams}
           onClose={() => setSelectedCase(null)}
           onUpdateStatus={handleUpdateStatus}
-          onAssignTeam={handleAssignTeam}
           onAddNote={handleAddNote}
           onCloseTask={handleCloseTask}
           onDeleteCase={handleDeleteCase}

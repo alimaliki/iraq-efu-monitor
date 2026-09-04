@@ -2,7 +2,7 @@
 
 import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import { EfuCase, Province, Team, Company } from '@/types/database';
-import { Archive, Search, Filter, RotateCcw, Clock, ShieldAlert, CheckCircle, ExternalLink, Calendar } from 'lucide-react';
+import { Archive, Search, RotateCcw, Clock, ExternalLink, Calendar, Trash2 } from 'lucide-react';
 import { getClosedSLAData } from '@/lib/slaCalculator';
 import { canManageUsers } from '@/lib/auth/rbac';
 import { useTelegram } from '../telegram/TelegramProvider';
@@ -28,6 +28,7 @@ export default function TaskArchiveView({
   const [cases, setCases] = useState<EfuCase[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [restoringId, setRestoringId] = useState<string | null>(null);
+  const [deletingId, setDeletingId] = useState<string | null>(null);
 
   // Search & Filter States
   const [searchQuery, setSearchQuery] = useState('');
@@ -80,6 +81,28 @@ export default function TaskArchiveView({
       console.error('Restore error:', err);
     } finally {
       setRestoringId(null);
+    }
+  };
+
+  const handleDelete = async (e: React.MouseEvent, caseId: string) => {
+    e.stopPropagation();
+    if (!confirm('Delete this archived case permanently? This action cannot be undone.')) return;
+
+    try {
+      setDeletingId(caseId);
+      const res = await fetch(`/api/cases/${caseId}`, { method: 'DELETE' });
+      const json = await res.json();
+      if (!res.ok || !json.success) {
+        throw new Error(json.error || 'Failed to delete archived case');
+      }
+
+      await fetchArchivedCases();
+      onRefreshTrigger?.();
+    } catch (err) {
+      console.error('Delete archive error:', err);
+      alert(err instanceof Error ? err.message : 'Failed to delete archived case');
+    } finally {
+      setDeletingId(null);
     }
   };
 
@@ -280,15 +303,24 @@ export default function TaskArchiveView({
                       </span>
                     </td>
                     <td className="p-3.5 text-right">
-                      {isDev && (
+                      <div className="flex items-center justify-end gap-2">
+                        {isDev && (
+                          <button
+                            onClick={(e) => handleRestore(e, c.id)}
+                            disabled={restoringId === c.id || deletingId === c.id}
+                            className="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded-lg text-[10px] font-bold text-slate-200 hover:bg-slate-700 hover:text-white transition-all"
+                          >
+                            RESTORE
+                          </button>
+                        )}
                         <button
-                          onClick={(e) => handleRestore(e, c.id)}
-                          disabled={restoringId === c.id}
-                          className="px-2.5 py-1 bg-slate-800 border border-slate-700 rounded-lg text-[10px] font-bold text-slate-200 hover:bg-slate-700 hover:text-white transition-all"
+                          onClick={(e) => handleDelete(e, c.id)}
+                          disabled={deletingId === c.id || restoringId === c.id}
+                          className="px-2.5 py-1 bg-rose-950/40 border border-rose-500/50 rounded-lg text-[10px] font-bold text-rose-300 hover:bg-rose-600 hover:text-white transition-all inline-flex items-center gap-1"
                         >
-                          ♻️ RESTORE
+                          <Trash2 className="w-3 h-3" /> DELETE
                         </button>
-                      )}
+                      </div>
                     </td>
                   </tr>
                 );

@@ -9,24 +9,21 @@ import {
   Building2,
   Clock,
   Send,
-  UserCheck,
   ShieldCheck,
   CheckCircle,
   AlertTriangle,
   Flame,
   Trash2,
 } from 'lucide-react';
-import { EfuCase, Team, CaseStatus } from '@/types/database';
+import { EfuCase, CaseStatus } from '@/types/database';
 import { formatDate, formatTime, getEfuStatusStyle } from '@/lib/utils';
 import { isCaseActive } from '@/lib/regionMapper';
 import { getSLAData, SLAData } from '@/lib/slaCalculator';
 
 interface CaseDetailsModalProps {
   caseData: EfuCase;
-  teams: Team[];
   onClose: () => void;
   onUpdateStatus: (caseId: string, status: CaseStatus) => void;
-  onAssignTeam: (caseId: string, teamId: string) => void;
   onAddNote: (caseId: string, noteText: string) => void;
   onCloseTask?: (caseId: string) => void;
   onDeleteCase?: (caseId: string) => void;
@@ -34,10 +31,8 @@ interface CaseDetailsModalProps {
 
 export default function CaseDetailsModal({
   caseData,
-  teams,
   onClose,
   onUpdateStatus,
-  onAssignTeam,
   onAddNote,
   onCloseTask,
   onDeleteCase,
@@ -45,7 +40,6 @@ export default function CaseDetailsModal({
   const [activeTab, setActiveTab] = useState<'DETAILS' | 'NOTES'>('DETAILS');
   const [noteInput, setNoteInput] = useState('');
   const [notesList, setNotesList] = useState<string[]>([]);
-  const [selectedTeamId, setSelectedTeamId] = useState(caseData.assigned_team_id || '');
   const [mounted, setMounted] = useState(false);
 
   const isClosedOrResolved =
@@ -83,14 +77,6 @@ export default function CaseDetailsModal({
     onAddNote(caseData.id, noteInput.trim());
     setNotesList((prev) => [noteInput.trim(), ...prev]);
     setNoteInput('');
-  };
-
-  const handleTeamChange = (e: React.ChangeEvent<HTMLSelectElement>) => {
-    const tId = e.target.value;
-    setSelectedTeamId(tId);
-    if (tId) {
-      onAssignTeam(caseData.id, tId);
-    }
   };
 
   return (
@@ -344,25 +330,6 @@ export default function CaseDetailsModal({
                   FULL TASK DESCRIPTION
                 </span>
                 <p className="text-slate-200 leading-relaxed font-sans">{caseData.description}</p>
-              </div>
-
-              {/* Assigned Team */}
-              <div className="p-4 bg-[#0d1424] border border-slate-800/80 rounded-xl space-y-2 text-xs">
-                <label className="text-slate-300 font-bold block flex items-center gap-2">
-                  <UserCheck className="w-4 h-4 text-sky-400" /> ASSIGN MAINTENANCE TEAM
-                </label>
-                <select
-                  value={selectedTeamId}
-                  onChange={handleTeamChange}
-                  className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700/60 rounded-xl text-slate-200 focus:outline-none focus:border-sky-500"
-                >
-                  <option value="">Unassigned</option>
-                  {teams.map((t) => (
-                    <option key={t.id} value={t.id}>
-                      {t.name} ({t.code})
-                    </option>
-                  ))}
-                </select>
               </div>
 
               {/* Close & Archive Task Button */}
