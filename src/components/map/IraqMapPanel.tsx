@@ -70,23 +70,24 @@ export default function IraqMapPanel({ provinceStats }: IraqMapPanelProps) {
           onSelectProvince={(id) => setSelectedProvinceId(id)}
         />
 
-        {/* Legend Overlay at Bottom Right */}
-        <div className="absolute bottom-3 right-3 flex flex-col gap-1.5 p-3 bg-[#080d1a]/95 border border-slate-700/60 rounded-xl text-[10px] font-mono backdrop-blur-xl select-none shadow-lg">
-          <div className="text-slate-300 font-bold tracking-wider uppercase mb-1 flex items-center gap-1.5 text-[11px]">
-            <ShieldAlert className="w-3.5 h-3.5 text-sky-400" /> THREAT LEGEND
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
-            <span className="text-slate-200 font-semibold">&gt;200 EFU / +4H SLA</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]" />
-            <span className="text-slate-300">AFFECTED USERS</span>
-          </div>
-          <div className="flex items-center gap-2">
-            <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
-            <span className="text-slate-400">NO OPEN EFU</span>
-          </div>
+      </div>
+
+      {/* Horizontal Threat Legend */}
+      <div className="flex flex-wrap items-center gap-x-5 gap-y-2 px-5 py-2.5 bg-[#090f1d]/90 border-t border-slate-800/80 text-[10px] font-mono select-none">
+        <div className="flex items-center gap-1.5 text-slate-300 font-bold tracking-wider uppercase text-[11px]">
+          <ShieldAlert className="w-3.5 h-3.5 text-sky-400" /> THREAT LEGEND
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-rose-500 shadow-[0_0_8px_rgba(244,63,94,0.8)]" />
+          <span className="text-slate-200 font-semibold">&gt;200 EFU / +4H SLA</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-amber-400 shadow-[0_0_6px_rgba(245,158,11,0.6)]" />
+          <span className="text-slate-300">AFFECTED USERS</span>
+        </div>
+        <div className="flex items-center gap-2">
+          <span className="w-2.5 h-2.5 rounded-full bg-slate-700" />
+          <span className="text-slate-400">NO OPEN EFU</span>
         </div>
       </div>
 
