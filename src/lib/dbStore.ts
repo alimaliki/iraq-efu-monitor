@@ -1,6 +1,6 @@
 import { EfuCase, Company, Province, Team, ProvinceStat, CasePriority, User } from '@/types/database';
 import { MOCK_CASES, MOCK_COMPANIES, MOCK_PROVINCES, MOCK_TEAMS } from './mockData';
-import { supabaseAdmin } from './supabase/server';
+import { getSupabaseAdmin } from './supabase/server';
 import { isCaseActive, derivePriority, resolveProvinceId } from './regionMapper';
 
 export interface DBUser extends User {
@@ -116,7 +116,7 @@ class DatabaseStore {
   async getDashboardData() {
     if (this.isSupabaseConfigured()) {
       try {
-        const { data: dbCases, error } = await supabaseAdmin
+        const { data: dbCases, error } = await getSupabaseAdmin()
           .from('cases')
           .select('*, company:companies(*), province:provinces(*), assigned_team:teams(*)');
 
