@@ -12,7 +12,6 @@ import NotificationsDrawer from '@/components/dashboard/NotificationsDrawer';
 import NewCaseModal from '@/components/cases/NewCaseModal';
 import TaskArchiveView from '@/components/archive/TaskArchiveView';
 import { useTelegram } from '@/components/telegram/TelegramProvider';
-import { supabase } from '@/lib/supabase/client';
 import {
   EfuCase,
   Company,
@@ -216,21 +215,12 @@ export default function DashboardPage() {
     });
   }, [cases, filters]);
 
-  // Supabase Real-time Sync Setup
+  // Refresh dashboard data periodically while keeping server credentials private.
   useEffect(() => {
-    const channel = supabase
-      .channel('cases_realtime_stream')
-      .on(
-        'postgres_changes',
-        { event: '*', schema: 'public', table: 'cases' },
-        () => {
-          fetchDashboardData();
-        }
-      )
-      .subscribe();
+    const refreshTimer = window.setInterval(fetchDashboardData, 30000);
 
     return () => {
-      supabase.removeChannel(channel);
+      window.clearInterval(refreshTimer);
     };
   }, [fetchDashboardData]);
 
