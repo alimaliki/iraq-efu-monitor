@@ -108,7 +108,7 @@ class DatabaseStore {
   private userPermissionsOverrides: Map<string, Record<string, boolean>> = new Map();
 
   private isSupabaseConfigured(): boolean {
-    const url = process.env.NEXT_PUBLIC_SUPABASE_URL || process.env.SUPABASE_URL;
+    const url = process.env.SUPABASE_URL;
     return !!url && !url.includes('demo.supabase.co');
   }
 
@@ -528,3 +528,4 @@ class DatabaseStore {
 }
 
 export const dbStore = new DatabaseStore();
+
