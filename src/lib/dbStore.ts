@@ -423,11 +423,8 @@ class DatabaseStore {
         (item) => item.name.toLowerCase() === (province?.name || '').toLowerCase()
       );
 
-      if (!databaseCompany) throw new Error(`Company not found in database: ${maintenance}`);
-      if (!databaseProvince) throw new Error(`Province not found in database: ${input.region || 'unknown'}`);
-
-      companyId = databaseCompany.id;
-      provinceId = databaseProvince.id;
+      companyId = databaseCompany?.id || null;
+      provinceId = databaseProvince?.id || null;
     }
 
     const grRequestBool =
