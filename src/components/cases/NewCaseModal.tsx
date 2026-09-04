@@ -108,8 +108,24 @@ Created At: 2026-09-03 13:53:13`);
       }
     }
 
+    const normalizeCaseId = (value: string) => value.replace(/^#\s*/, '').trim();
+    const standaloneCaseId = lines
+      .map((line) => line.trim())
+      .map((line) => line.match(/^#?\s*((?:P-|SRE|CC-)[A-Z0-9-]+)\s*$/i)?.[1] || '')
+      .find(Boolean);
+
     return {
-      src: parsed['src'] || parsed['case id'] || parsed['case_id'] || '',
+      src: normalizeCaseId(
+        parsed['src'] ||
+          parsed['case id'] ||
+          parsed['case_id'] ||
+          parsed['sre'] ||
+          parsed['sre id'] ||
+          parsed['cc'] ||
+          parsed['cc id'] ||
+          standaloneCaseId ||
+          ''
+      ),
       fms_id: parsed['fms id'] || parsed['fms_id'] || parsed['fms url'] || '',
       department: parsed['department'] || 'Support',
       region: parsed['region'] || 'Nasria',
