@@ -392,8 +392,8 @@ class DatabaseStore {
     const efu = Number(input.efu) || 0;
     const derivedPrio = derivePriority(efu);
 
-    const provinceId = resolveProvinceId(input.region, this.provincesList);
-    const province = this.provincesList.find((p) => p.id === provinceId);
+    const resolvedProvinceId = resolveProvinceId(input.region, this.provincesList);
+    const province = this.provincesList.find((p) => p.id === resolvedProvinceId);
     const maintenance = input.maintenance?.trim() || 'WNS';
 
     const company =
@@ -402,6 +402,33 @@ class DatabaseStore {
           c.name.toLowerCase() === maintenance.toLowerCase() ||
           c.code.toLowerCase() === maintenance.toLowerCase()
       ) || this.companiesList[0];
+
+    let provinceId = resolvedProvinceId;
+    let companyId = company?.id || null;
+
+    if (this.isSupabaseConfigured()) {
+      const [{ data: databaseCompanies, error: companiesError }, { data: databaseProvinces, error: provincesError }] =
+        await Promise.all([
+          getSupabaseAdmin().from('companies').select('id, name, code'),
+          getSupabaseAdmin().from('provinces').select('id, name, code'),
+        ]);
+
+      if (companiesError) throw new Error(`Failed to load companies: ${companiesError.message}`);
+      if (provincesError) throw new Error(`Failed to load provinces: ${provincesError.message}`);
+
+      const databaseCompany = (databaseCompanies || []).find(
+        (item) => item.name.toLowerCase() === maintenance.toLowerCase() || item.code.toLowerCase() === maintenance.toLowerCase()
+      );
+      const databaseProvince = (databaseProvinces || []).find(
+        (item) => item.name.toLowerCase() === (province?.name || '').toLowerCase()
+      );
+
+      if (!databaseCompany) throw new Error(`Company not found in database: ${maintenance}`);
+      if (!databaseProvince) throw new Error(`Province not found in database: ${input.region || 'unknown'}`);
+
+      companyId = databaseCompany.id;
+      provinceId = databaseProvince.id;
+    }
 
     const grRequestBool =
       typeof input.gr_request === 'boolean'
@@ -432,7 +459,7 @@ class DatabaseStore {
             department: input.department || 'Support',
             region: input.region || 'Nasria',
             province_id: provinceId,
-            company_id: company?.id || null,
+            company_id: companyId,
             fdt: input.fdt,
             description: input.description,
             efu,
