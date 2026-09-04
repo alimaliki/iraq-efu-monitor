@@ -30,7 +30,7 @@ export default function PriorityStream({
             <h2 className="text-sm font-bold text-white tracking-wider uppercase">
               ACTIVE PRIORITY STREAM
             </h2>
-            <p className="text-[10px] text-slate-400 font-sans">البلاغات والكيسات المفتوحة والنشطة حالياً</p>
+            <p className="text-[10px] text-slate-400 font-sans">Currently open and active incidents and cases</p>
           </div>
         </div>
 
@@ -63,7 +63,7 @@ export default function PriorityStream({
             <Inbox className="w-8 h-8" />
           </div>
           <p className="text-sm font-bold text-slate-200 mt-2">NO ACTIVE EFU CASES MATCHED</p>
-          <p className="text-xs text-slate-400 font-sans">جميع الأنظمة تعمل ضمن المعايير أو لا توجد نتائج للفلترة الحالية.</p>
+          <p className="text-xs text-slate-400 font-sans">All systems are within standards, or no results match the current filters.</p>
         </div>
       ) : (
         <div className="space-y-3">

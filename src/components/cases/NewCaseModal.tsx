@@ -217,7 +217,7 @@ Created At: 2026-09-03 13:53:13`);
               <h2 className="text-base font-bold text-white tracking-wider">
                 IMPORT INCOMING TASK DATA
               </h2>
-              <p className="text-[10px] text-slate-400 font-sans">إضافة كيس جديد وحفظه في النظام والمزامنة اللحظية</p>
+              <p className="text-[10px] text-slate-400 font-sans">Add a new case and save it with live synchronization</p>
             </div>
           </div>
 

@@ -261,7 +261,7 @@ export default function IraqSvgMap({
               </div>
             </div>
           ) : (
-            <div className="text-[11px] text-slate-400 font-sans">لا توجد بلاغات فعالة حالياً</div>
+            <div className="text-[11px] text-slate-400 font-sans">No active incidents currently</div>
           )}
         </div>
       )}

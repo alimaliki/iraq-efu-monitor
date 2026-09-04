@@ -15,7 +15,7 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
     {
       id: 'total',
       title: 'TOTAL CASES',
-      subtitle: 'إجمالي الحالات',
+      subtitle: 'Total cases',
       value: stats.totalCases,
       icon: Layers,
       borderColor: 'border-slate-800/90 hover:border-sky-500/50',
@@ -28,7 +28,7 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
     {
       id: 'active',
       title: 'ACTIVE CASES',
-      subtitle: 'الحالات النشطة',
+      subtitle: 'Active cases',
       value: stats.activeCases,
       icon: Activity,
       borderColor: 'border-slate-800/90 hover:border-amber-500/50',
@@ -41,7 +41,7 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
     {
       id: 'sla',
       title: 'SLA CASES (>4H)',
-      subtitle: 'حالات SLA المتأخرة',
+      subtitle: 'Overdue SLA cases',
       value: stats.casesOlderThan4Hours,
       icon: Clock,
       borderColor: 'border-slate-800/90 hover:border-rose-500/50',

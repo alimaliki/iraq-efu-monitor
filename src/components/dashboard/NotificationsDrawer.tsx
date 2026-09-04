@@ -51,7 +51,7 @@ export default function NotificationsDrawer({
       {/* Notifications List */}
       <div className="flex-1 p-4 space-y-3 overflow-y-auto">
         {notifications.length === 0 ? (
-          <div className="p-6 text-center text-slate-500 text-xs font-sans">لا توجد إشعارات جديدة</div>
+          <div className="p-6 text-center text-slate-500 text-xs font-sans">No new notifications</div>
         ) : (
           notifications.map((n) => {
             return (

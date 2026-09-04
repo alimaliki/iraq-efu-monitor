@@ -19,7 +19,7 @@ export default function ProvinceModal({ stat, onClose }: ProvinceModalProps) {
           <h3 className="text-base font-bold text-white tracking-wider flex items-center gap-2">
             {stat.provinceName.toUpperCase()} ({stat.provinceNameAr})
           </h3>
-          <p className="text-[10px] text-slate-400 font-sans mt-0.5">مؤشرات ومعلومات المحافظة وحالات الـ EFU الحالية</p>
+          <p className="text-[10px] text-slate-400 font-sans mt-0.5">Governorate metrics and current EFU cases</p>
         </div>
         <button
           onClick={onClose}

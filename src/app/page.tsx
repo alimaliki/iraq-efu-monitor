@@ -413,11 +413,11 @@ export default function DashboardPage() {
                   ALL OPERATIONS CASES DATABASE
                 </h2>
                 <p className="text-xs text-slate-400 font-sans mt-0.5">
-                  جميع كيسات العمليات وسجل البلاغات ككل مع خيارات الفلترة المتقدمة والبحث المباشر.
+                  Complete operations case and incident records with advanced filtering and live search.
                 </p>
               </div>
               <div className="px-3.5 py-1.5 bg-[#080d1a] border border-slate-700/60 rounded-xl text-xs text-slate-300 font-bold">
-                إجمالي الكيسات: <span className="text-sky-400">{cases.length}</span> | الكيسات الفعالة: <span className="text-amber-400">{stats.activeCases}</span>
+                Total cases: <span className="text-sky-400">{cases.length}</span> | Active cases: <span className="text-amber-400">{stats.activeCases}</span>
               </div>
             </div>
 
@@ -467,7 +467,7 @@ export default function DashboardPage() {
               <span className="font-bold uppercase tracking-wider flex items-center gap-2">
                 <Activity className="w-4 h-4 text-sky-400" /> FULL-SCALE IRAQ 18-GOVERNORATE THREAT MAP
               </span>
-              <span className="text-slate-400 text-[11px] font-sans">انقر على أي محافظة للاطلاع على الإحصائيات الفورية</span>
+              <span className="text-slate-400 text-[11px] font-sans">Click any governorate to view live statistics</span>
             </div>
             <div className="w-full min-h-[600px]">
               <IraqMapPanel provinceStats={provinceStats} />

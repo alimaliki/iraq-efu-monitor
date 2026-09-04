@@ -29,7 +29,7 @@ export default function FiltersBar({
             type="text"
             value={filters.searchQuery}
             onChange={(e) => setFilters((prev) => ({ ...prev, searchQuery: e.target.value }))}
-            placeholder="بحث بالـ SRC / Case ID، أو FMS، أو FDT، أو الوصف..."
+            placeholder="Search SRC / Case ID, FMS, FDT, or description..."
             className="w-full pl-10 pr-3 py-2 bg-[#080d1a] border border-slate-700/60 rounded-xl text-slate-100 placeholder-slate-500 focus:outline-none focus:border-sky-500 focus:ring-1 focus:ring-sky-500 transition-all font-sans text-xs"
           />
         </div>

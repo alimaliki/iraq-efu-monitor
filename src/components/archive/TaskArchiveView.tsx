@@ -96,7 +96,7 @@ export default function TaskArchiveView({
               TASK ARCHIVE & HISTORICAL RECORDS
             </h2>
             <p className="text-[11px] text-slate-400 font-sans mt-0.5">
-              سجل الكيسات المكتملة والمغلقة مع تدقيق مؤقتات الـ SLA التاريخية.
+              Completed and closed case records with historical SLA timer audits.
             </p>
           </div>
         </div>

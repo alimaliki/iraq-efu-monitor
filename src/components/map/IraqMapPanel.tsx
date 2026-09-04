@@ -32,7 +32,7 @@ export default function IraqMapPanel({ provinceStats }: IraqMapPanelProps) {
             <h2 className="text-sm font-mono font-bold tracking-wider text-white uppercase">
               IRAQ THREAT MAP
             </h2>
-            <p className="text-[10px] text-slate-400 font-sans">خريطة المحافظات ورصد التهديدات المباشرة</p>
+            <p className="text-[10px] text-slate-400 font-sans">Governorate map and live threat monitoring</p>
           </div>
         </div>
 
