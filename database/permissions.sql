@@ -40,6 +40,7 @@ INSERT INTO public.permissions (key, name, description) VALUES
   ('CREATE_CASE', 'Create Case', 'Allows user to log new incident cases'),
   ('EDIT_CASE', 'Edit Case', 'Allows user to modify existing cases'),
   ('RESOLVE_CASE', 'Resolve Case', 'Allows user to resolve or close cases'),
+  ('DELETE_CASE', 'Delete Case', 'Allows user to permanently delete cases'),
   ('ASSIGN_CASE', 'Assign Team', 'Allows user to assign maintenance teams to cases'),
   ('ADD_CASE_NOTE', 'Add Case Note', 'Allows user to attach field notes'),
   ('VIEW_ALL_CASES', 'View All Cases', 'Allows user to view cases across all regions'),
@@ -73,6 +74,7 @@ INSERT INTO public.role_permissions (role, permission_key) VALUES
   ('LEADER', 'CREATE_CASE'),
   ('LEADER', 'EDIT_CASE'),
   ('LEADER', 'RESOLVE_CASE'),
+  ('LEADER', 'DELETE_CASE'),
   ('LEADER', 'ASSIGN_CASE'),
   ('LEADER', 'ADD_CASE_NOTE'),
   ('LEADER', 'VIEW_TEAM_CASES'),
@@ -90,7 +92,8 @@ INSERT INTO public.role_permissions (role, permission_key) VALUES
   ('MEMBER', 'VIEW_MAP'),
   ('MEMBER', 'VIEW_NOTIFICATIONS'),
   ('MEMBER', 'CREATE_CASE'),
-  ('MEMBER', 'ADD_CASE_NOTE')
+  ('MEMBER', 'ADD_CASE_NOTE'),
+  ('MEMBER', 'DELETE_CASE')
 ON CONFLICT (role, permission_key) DO NOTHING;
 
 -- RLS POLICIES
