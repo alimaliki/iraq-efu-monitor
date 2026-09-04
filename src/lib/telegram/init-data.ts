@@ -13,7 +13,7 @@ export interface ValidatedTelegramData {
  * using HMAC-SHA256 cryptographic signature checks.
  */
 export function validateTelegramWebAppData(initData: string, botToken?: string): ValidatedTelegramData {
-  const token = botToken || process.env.TELEGRAM_BOT_TOKEN;
+  const token = botToken;
   
   if (!initData || !token || token === 'demo-bot-token') {
     // If no initData or token in dev mode, return safe fallback status

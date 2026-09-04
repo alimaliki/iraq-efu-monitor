@@ -11,7 +11,7 @@ export async function POST(request: Request) {
       return NextResponse.json({ success: false, error: 'Missing initData' }, { status: 400 });
     }
 
-    const validation = validateTelegramWebAppData(initData);
+    const validation = validateTelegramWebAppData(initData, process.env.TELEGRAM_BOT_TOKEN);
 
     if (!validation.isValid) {
       return NextResponse.json({ success: false, error: 'Invalid Telegram WebApp HMAC signature' }, { status: 401 });
