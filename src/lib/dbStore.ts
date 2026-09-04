@@ -409,8 +409,53 @@ class DatabaseStore {
         : (input.gr_request || '').toString().toLowerCase() === 'yes';
 
     const createdAtISO = input.created_at
-      ? new Date(input.created_at.replace(' ', 'T') + '+03:00').toISOString()
+      ? (() => {
+          const rawCreatedAt = String(input.created_at).trim();
+          const normalizedCreatedAt = rawCreatedAt.includes('T')
+            ? rawCreatedAt
+            : rawCreatedAt.replace(' ', 'T') + '+03:00';
+          const parsedCreatedAt = new Date(normalizedCreatedAt);
+          if (Number.isNaN(parsedCreatedAt.getTime())) {
+            throw new Error('Invalid created_at date');
+          }
+          return parsedCreatedAt.toISOString();
+        })()
       : new Date().toISOString();
+
+    if (this.isSupabaseConfigured()) {
+      const { data, error } = await getSupabaseAdmin()
+        .from('cases')
+        .upsert(
+          {
+            case_id: caseId,
+            fms_url: input.fms_id || null,
+            department: input.department || 'Support',
+            region: input.region || 'Nasria',
+            province_id: provinceId,
+            company_id: company?.id || null,
+            fdt: input.fdt,
+            description: input.description,
+            efu,
+            affected_users: efu,
+            maintenance,
+            status: input.status || 'Last Mile',
+            escalation: input.escalation || 'Open',
+            gr_request: grRequestBool,
+            priority: derivedPrio,
+            updated_at: new Date().toISOString(),
+            created_at: createdAtISO,
+          },
+          { onConflict: 'case_id' }
+        )
+        .select('*, company:companies(*), province:provinces(*)')
+        .single();
+
+      if (error) throw new Error(`Failed to save case: ${error.message}`);
+
+      this.casesList = this.casesList.filter((c) => c.case_id.toLowerCase() !== caseId.toLowerCase());
+      this.casesList.unshift(data as EfuCase);
+      return data as EfuCase;
+    }
 
     const existingIndex = this.casesList.findIndex(
       (c) => c.case_id.toLowerCase() === caseId.toLowerCase()
