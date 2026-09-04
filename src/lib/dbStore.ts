@@ -32,8 +32,24 @@ export interface AuditLogItem {
   created_at: string;
 }
 
+const DEMO_CASE_IDS = [
+  'c-101',
+  'c-102',
+  'c-103',
+  'c-104',
+  'c-105',
+  'a1111111-1111-1111-1111-111111111111',
+  'a2222222-2222-2222-2222-222222222222',
+  'a3333333-3333-3333-3333-333333333333',
+  'P-26090310473104696',
+  'P-26090310223018092',
+  'P-26090308151200441',
+  'P-26090211050012345',
+  'P-26090109150098765',
+];
+
 class DatabaseStore {
-  private casesList: EfuCase[] = [...MOCK_CASES];
+  private casesList: EfuCase[] = [];
   private companiesList: Company[] = [...MOCK_COMPANIES];
   private provincesList: Province[] = [...MOCK_PROVINCES];
   private teamsList: Team[] = [...MOCK_TEAMS];
@@ -104,8 +120,10 @@ class DatabaseStore {
           .from('cases')
           .select('*, company:companies(*), province:provinces(*), assigned_team:teams(*)');
 
-        if (!error && dbCases && dbCases.length > 0) {
-          this.casesList = dbCases as EfuCase[];
+        if (!error && dbCases) {
+          this.casesList = (dbCases as EfuCase[]).filter(
+            (c) => !DEMO_CASE_IDS.includes(c.id) && !DEMO_CASE_IDS.includes(c.case_id)
+          );
         }
       } catch (err) {
         console.error('Supabase query fallback to dbStore:', err);

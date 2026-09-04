@@ -56,26 +56,8 @@ export default function DashboardPage() {
   const [isNewCaseModalOpen, setIsNewCaseModalOpen] = useState<boolean>(false);
   const [isNotificationsOpen, setIsNotificationsOpen] = useState<boolean>(false);
 
-  const [notifications, setNotifications] = useState<SystemNotification[]>([
-    {
-      id: 'n1',
-      user_id: null,
-      title: 'CRITICAL EFU TASK IMPORTED',
-      message: 'Fiber cut near Baghdad Karrada bridge (SRC: P-26090308151200441)',
-      type: 'CRITICAL',
-      read: false,
-      created_at: new Date().toISOString(),
-    },
-    {
-      id: 'n2',
-      user_id: null,
-      title: 'NASRIA GPON FAULT',
-      message: 'FNS0211 Fat 29 down task logged (SRC: P-26090310473104696)',
-      type: 'WARNING',
-      read: false,
-      created_at: new Date().toISOString(),
-    },
-  ]);
+  const [notifications, setNotifications] = useState<SystemNotification[]>([]);
+
 
   // Filters State
   const [filters, setFilters] = useState<FilterOptions>({
