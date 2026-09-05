@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useEffect, useState, useMemo, useCallback } from 'react';
+import React, { useEffect, useState, useMemo, useCallback, useSyncExternalStore } from 'react';
 import TopNav from '@/components/layout/TopNav';
 import TabNav from '@/components/layout/TabNav';
 import StatsOverview from '@/components/dashboard/StatsOverview';
@@ -30,6 +30,11 @@ import { UserCheck, Bell, Activity, CheckCircle2 } from 'lucide-react';
 
 export default function DashboardPage() {
   const { user } = useTelegram();
+  const isHydrated = useSyncExternalStore(
+    () => () => {},
+    () => true,
+    () => false
+  );
   const [activeTab, setActiveTab] = useState<string>('dashboard');
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [toastMessage, setToastMessage] = useState<string | null>(null);
@@ -75,11 +80,16 @@ export default function DashboardPage() {
   const fetchDashboardData = useCallback(async () => {
     try {
       setIsLoading(true);
-      const res = await fetch('/api/dashboard');
+      const res = await fetch('/api/dashboard', { cache: 'no-store' });
       const json = await res.json();
 
       if (json.success && json.data) {
-        setCases(json.data.cases || []);
+        const nextCases = json.data.cases || [];
+        setCases(nextCases);
+        setSelectedCase((current) => {
+          if (!current) return current;
+          return nextCases.find((item: EfuCase) => item.id === current.id || item.case_id === current.case_id) || current;
+        });
       }
 
       // Fetch metadata lists
@@ -353,6 +363,8 @@ export default function DashboardPage() {
       console.error('API note insert error:', e);
     }
   }, []);
+
+  if (!isHydrated) return null;
 
   return (
     <div className="min-h-screen flex flex-col bg-[#070b14] text-slate-100 pb-20 md:pb-6 relative selection:bg-sky-500/30">

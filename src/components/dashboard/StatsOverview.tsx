@@ -54,7 +54,7 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
   ];
 
   return (
-    <div className="grid grid-cols-3 gap-2.5 sm:gap-3.5 font-mono">
+    <div className="grid grid-cols-3 gap-2 sm:gap-2.5 font-mono">
       {cards.map((card) => {
         const Icon = card.icon;
         const isSelected = activeFilter === card.id;
@@ -62,7 +62,7 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
           <div
             key={card.id}
             onClick={() => onSelectStatFilter && onSelectStatFilter(card.id)}
-            className={`aspect-square min-w-0 p-3 sm:p-4 rounded-2xl border ${card.borderColor} ${card.bgColor} ${card.glow} backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 ${
+            className={`h-24 sm:h-28 min-w-0 p-2.5 sm:p-3 rounded-xl border ${card.borderColor} ${card.bgColor} ${card.glow} backdrop-blur-xl transition-all duration-300 hover:-translate-y-0.5 ${
               onSelectStatFilter ? 'cursor-pointer' : ''
             } flex flex-col justify-between ${
               isSelected ? 'ring-2 ring-sky-500/60 bg-[#121c33]' : ''
@@ -75,13 +75,13 @@ export default function StatsOverview({ stats, activeFilter, onSelectStatFilter 
                 </span>
                 <span className="hidden sm:block text-[11px] text-slate-400 font-sans">{card.subtitle}</span>
               </div>
-              <div className={`p-1.5 sm:p-2.5 rounded-xl shrink-0 ${card.iconBg}`}>
-                <Icon className="w-4 h-4 sm:w-5 sm:h-5" />
+              <div className={`p-1 sm:p-1.5 rounded-lg shrink-0 ${card.iconBg}`}>
+                <Icon className="w-3.5 h-3.5 sm:w-4 sm:h-4" />
               </div>
             </div>
 
-            <div className="mt-2 sm:mt-4 flex items-end justify-between gap-1">
-              <span className={`text-xl sm:text-3xl font-black tracking-tight ${card.textColor}`}>
+            <div className="mt-1.5 sm:mt-2 flex items-end justify-between gap-1">
+              <span className={`text-lg sm:text-2xl font-black tracking-tight ${card.textColor}`}>
                 {card.value.toLocaleString()}
               </span>
               <span className={`hidden sm:inline-block text-[10px] px-2 py-0.5 rounded-md border font-semibold uppercase tracking-wider ${card.badgeColor}`}>
