@@ -108,7 +108,7 @@ export default function CaseDetailsModal({
                 </span>
               </div>
               <p className="text-[11px] text-slate-400">
-                FDT: <span className="text-slate-200 font-bold">{caseData.fdt}</span> | MAINTENANCE: <span className="text-slate-200 font-bold">{caseData.maintenance || 'WNS'}</span>
+                FDT: <span className="text-slate-200 font-bold">{caseData.fdt}</span> | MAINTENANCE: <span className="text-slate-200 font-bold">{caseData.maintenance || 'UNSPECIFIED'}</span>
               </p>
             </div>
           </div>
@@ -286,7 +286,7 @@ export default function CaseDetailsModal({
 
                 <div className="p-3 bg-[#080d1a] border border-slate-800/80 rounded-xl space-y-1">
                   <span className="text-[10px] text-slate-400 block font-bold">MAINTENANCE (COMPANY)</span>
-                  <span className="text-slate-200 font-bold">{caseData.maintenance || 'WNS'}</span>
+                  <span className="text-slate-200 font-bold">{caseData.maintenance || 'UNSPECIFIED'}</span>
                 </div>
 
                 <div className="p-3 bg-[#080d1a] border border-slate-800/80 rounded-xl space-y-1">

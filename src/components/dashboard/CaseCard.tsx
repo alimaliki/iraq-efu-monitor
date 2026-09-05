@@ -85,7 +85,7 @@ export default function CaseCard({ caseData, onSelect }: CaseCardProps) {
           <span className="text-slate-400 text-[9px] uppercase tracking-widest block flex items-center gap-1 mb-0.5">
             <Building2 className="w-3 h-3 text-sky-400" /> MAINTENANCE
           </span>
-          <span className="font-bold text-slate-200 truncate block">{caseData.maintenance || caseData.company?.name || 'WNS'}</span>
+          <span className="font-bold text-slate-200 truncate block">{caseData.maintenance || caseData.company?.name || 'UNSPECIFIED'}</span>
         </div>
 
         <div className="bg-slate-900/40 p-2 rounded-lg border border-slate-800/60">

@@ -54,10 +54,11 @@ export default function FiltersBar({
             className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700/60 rounded-xl text-slate-200 focus:outline-none focus:border-sky-500 appearance-none cursor-pointer pr-8 truncate transition-colors"
           >
             <option value="ALL">All Maintenance</option>
-            <option value="WNS">WNS</option>
-            <option value="Zain Iraq">Zain Iraq</option>
-            <option value="AsiaCell">AsiaCell</option>
-            <option value="Korek Telecom">Korek Telecom</option>
+            {companies.map((company) => (
+              <option key={company.id} value={company.name}>
+                {company.name}
+              </option>
+            ))}
           </select>
           <Filter className="absolute right-2.5 top-1/2 -translate-y-1/2 w-3.5 h-3.5 text-slate-500 pointer-events-none" />
         </div>

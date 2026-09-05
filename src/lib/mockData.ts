@@ -2,9 +2,17 @@ import { Company, Province, EfuCase, Team } from '@/types/database';
 
 export const MOCK_COMPANIES: Company[] = [
   { id: 'c1', name: 'WNS', code: 'WNS', status: 'ACTIVE', created_at: new Date().toISOString() },
-  { id: 'c2', name: 'Zain Iraq', code: 'ZAIN', status: 'ACTIVE', created_at: new Date().toISOString() },
-  { id: 'c3', name: 'AsiaCell', code: 'ASIACELL', status: 'ACTIVE', created_at: new Date().toISOString() },
-  { id: 'c4', name: 'Korek Telecom', code: 'KOREK', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c5', name: 'Al-Baqea', code: 'AL-BAQEA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c6', name: 'Al-Ligaa', code: 'AL-LIGAA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c7', name: 'Al-Mustafa', code: 'AL-MUSTAFA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c8', name: 'Al-Nafetha', code: 'AL-NAFETHA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c9', name: 'Alwatani Thiqar', code: 'ALWATANI-THIQAR', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c10', name: 'Global Tek FTTH Last Mile', code: 'GLOBAL-TEK', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c11', name: 'Halasat', code: 'HALASAT', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c12', name: 'Light Speed Operations', code: 'LIGHT-SPEED', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c13', name: 'Madaa AL Fadhaa', code: 'MADAA-AL-FADHAA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c14', name: 'Mustafa Isa Hamoud Majili', code: 'MUSTAFA-ISA', status: 'ACTIVE', created_at: new Date().toISOString() },
+  { id: 'c15', name: 'Skyline', code: 'SKYLINE', status: 'ACTIVE', created_at: new Date().toISOString() },
 ];
 
 export const MOCK_PROVINCES: Province[] = [

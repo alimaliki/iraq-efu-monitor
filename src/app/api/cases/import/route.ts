@@ -35,7 +35,7 @@ export async function POST(request: Request) {
       fdt: body.fdt.trim(),
       description: body.description.trim(),
       efu: Number(body.efu) || 0,
-      maintenance: body.maintenance || 'WNS',
+      maintenance: body.maintenance || null,
       status: body.status || 'Last Mile',
       escalation: body.escalation || 'Open',
       gr_request: body.gr_request,

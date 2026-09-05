@@ -34,7 +34,7 @@ export default function NewCaseModal({
   const [fdt, setFdt] = useState('');
   const [description, setDescription] = useState('');
   const [efu, setEfu] = useState<number>(0);
-  const [maintenance, setMaintenance] = useState('WNS');
+  const [maintenance, setMaintenance] = useState('');
   const [status, setStatus] = useState('Last Mile');
   const [escalation, setEscalation] = useState('Open');
   const [grRequest, setGrRequest] = useState<boolean>(false);
@@ -54,7 +54,7 @@ export default function NewCaseModal({
       setFdt('');
       setDescription('');
       setEfu(0);
-      setMaintenance('WNS');
+      setMaintenance('');
       setStatus('Last Mile');
       setEscalation('Open');
       setGrRequest(false);
@@ -132,7 +132,7 @@ Created At: 2026-09-03 13:53:13`);
       fdt: parsed['fdt'] || '',
       description: parsed['description'] || '',
       efu: Number(parsed['efu']) || 0,
-      maintenance: parsed['maintenance'] || 'WNS',
+      maintenance: parsed['maintenance'] || '',
       status: parsed['status'] || 'Last Mile',
       escalation: parsed['escalation'] || 'Open',
       gr_request: (parsed['gr request'] || parsed['gr_request'] || '').toLowerCase() === 'yes',
@@ -408,7 +408,7 @@ Created At: 2026-09-03 13:53:13`);
                   type="text"
                   value={maintenance}
                   onChange={(e) => setMaintenance(e.target.value)}
-                  placeholder="WNS"
+                  placeholder="Company / operator (optional)"
                   className="w-full px-3 py-2 bg-[#080d1a] border border-slate-700/60 rounded-xl text-slate-100 focus:outline-none focus:border-sky-500"
                 />
               </div>

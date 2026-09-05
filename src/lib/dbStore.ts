@@ -408,14 +408,14 @@ class DatabaseStore {
 
     const resolvedProvinceId = resolveProvinceId(input.region, this.provincesList);
     const province = this.provincesList.find((p) => p.id === resolvedProvinceId);
-    const maintenance = input.maintenance?.trim() || 'WNS';
+    const maintenance = input.maintenance?.trim() || null;
 
     const company =
-      this.companiesList.find(
+      maintenance && this.companiesList.find(
         (c) =>
           c.name.toLowerCase() === maintenance.toLowerCase() ||
           c.code.toLowerCase() === maintenance.toLowerCase()
-      ) || this.companiesList[0];
+      );
 
     let provinceId = resolvedProvinceId;
     let companyId = company?.id || null;
@@ -430,9 +430,11 @@ class DatabaseStore {
       if (companiesError) throw new Error(`Failed to load companies: ${companiesError.message}`);
       if (provincesError) throw new Error(`Failed to load provinces: ${provincesError.message}`);
 
-      const databaseCompany = (databaseCompanies || []).find(
-        (item) => item.name.toLowerCase() === maintenance.toLowerCase() || item.code.toLowerCase() === maintenance.toLowerCase()
-      );
+      const databaseCompany = maintenance
+        ? (databaseCompanies || []).find(
+            (item) => item.name.toLowerCase() === maintenance.toLowerCase() || item.code.toLowerCase() === maintenance.toLowerCase()
+          )
+        : null;
       const databaseProvince = (databaseProvinces || []).find(
         (item) => item.name.toLowerCase() === (province?.name || '').toLowerCase()
       );
@@ -642,7 +644,7 @@ class DatabaseStore {
       region: caseData.region || 'Nasria',
       fdt: caseData.fdt,
       description: caseData.description,
-      maintenance: caseData.maintenance || 'WNS',
+      maintenance: caseData.maintenance || null,
       status: caseData.status || 'Last Mile',
       escalation: caseData.escalation || 'Open',
     });

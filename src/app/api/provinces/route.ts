@@ -9,7 +9,7 @@ export async function GET() {
       .select('*')
       .order('name');
 
-    if (!error && data) {
+    if (!error && data?.length) {
       return NextResponse.json({ success: true, provinces: data });
     }
   }
