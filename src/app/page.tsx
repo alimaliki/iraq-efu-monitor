@@ -119,6 +119,13 @@ export default function DashboardPage() {
     fetchDashboardData();
   }, [fetchDashboardData]);
 
+  useEffect(() => {
+    if (new URLSearchParams(window.location.search).get('newCase') === '1') {
+      setIsNewCaseModalOpen(true);
+      window.history.replaceState({}, '', window.location.pathname);
+    }
+  }, []);
+
   // Show Temporary Toast Message
   const triggerToast = (msg: string) => {
     setToastMessage(msg);

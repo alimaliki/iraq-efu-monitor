@@ -57,11 +57,13 @@ export async function POST(request: Request) {
           [{ text: '👥 Users' }, { text: '🔐 Permissions' }],
           [{ text: '👷 Teams' }, { text: '📍 Regions' }],
           [{ text: '📊 Statistics' }, { text: '📋 Audit Log' }],
+          [{ text: '➕ NEW CASE', web_app: { url: `${process.env.TELEGRAM_MINI_APP_URL || 'http://localhost:3000'}?newCase=1` } }],
           [{ text: '📦 Task Archive' }, { text: '🚀 OPEN APP', web_app: { url: process.env.TELEGRAM_MINI_APP_URL || 'http://localhost:3000' } }],
         ]);
       } else {
         // Normal User / Leader view
         await sendTelegramReplyKeyboard(chatId, `🛠️ <b>IRAQ EFU MAINTENANCE MONITOR</b>\n\nClick below to open your authorized Operations Dashboard.`, [
+          [{ text: '➕ NEW CASE', web_app: { url: `${process.env.TELEGRAM_MINI_APP_URL || 'http://localhost:3000'}?newCase=1` } }],
           [{ text: '📦 Task Archive' }, { text: '🚀 OPEN APP', web_app: { url: process.env.TELEGRAM_MINI_APP_URL || 'http://localhost:3000' } }],
         ]);
       }
