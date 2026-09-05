@@ -124,6 +124,13 @@ class DatabaseStore {
           this.casesList = (dbCases as EfuCase[]).filter(
             (c) => !DEMO_CASE_IDS.includes(c.id) && !DEMO_CASE_IDS.includes(c.case_id)
           );
+
+          // Older imported cases may have no province_id; recover it from the region
+          // so dashboard totals and the map still include those cases.
+          this.casesList = this.casesList.map((c) => ({
+            ...c,
+            province_id: c.province_id || resolveProvinceId(c.region, this.provincesList),
+          }));
         }
       } catch (err) {
         console.error('Supabase query fallback to dbStore:', err);
