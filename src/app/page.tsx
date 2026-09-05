@@ -24,7 +24,7 @@ import {
   SystemNotification,
 } from '@/types/database';
 import { getCaseAgeHours } from '@/lib/utils';
-import { isCaseActive } from '@/lib/regionMapper';
+import { isCaseActive, resolveProvinceId } from '@/lib/regionMapper';
 import { canViewProfile, canViewArchive } from '@/lib/auth/rbac';
 import { UserCheck, Bell, Activity, CheckCircle2 } from 'lucide-react';
 
@@ -152,7 +152,11 @@ export default function DashboardPage() {
   const provinceStats: ProvinceStat[] = useMemo(() => {
     const nowMs = Date.now();
     return provinces.map((prov) => {
-      const provCases = cases.filter((c) => c.province_id === prov.id);
+      const provCases = cases.filter((c) => {
+        if (c.province_id === prov.id || c.province?.id === prov.id) return true;
+        if (c.province?.code && c.province.code.toLowerCase() === prov.code.toLowerCase()) return true;
+        return resolveProvinceId(c.region, provinces) === prov.id;
+      });
       const provActiveCases = provCases.filter((c) => isCaseActive(c));
       const provEfu = provActiveCases.reduce((a, b) => a + (b.efu || 0), 0);
       const provUsers = provActiveCases.reduce((a, b) => a + (b.affected_users || b.efu || 0), 0);
