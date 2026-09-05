@@ -116,6 +116,7 @@ export interface SystemNotification {
 
 export interface ProvinceStat {
   provinceId: string;
+  provinceCode?: string;
   provinceName: string;
   provinceNameAr: string;
   activeCases: number;

@@ -31,7 +31,10 @@ export default function IraqSvgMap({
 
   // Status color resolver for each governorate based on dynamic database stats
   const getGovernorateStatus = (provId: string) => {
-    const stat = provinceStats.find((s) => s.provinceId === provId);
+    const governorate = IRAQ_GOVERNORATES_FEATURES.find((gov) => gov.id === provId);
+    const stat = provinceStats.find(
+      (s) => s.provinceId === provId || s.provinceCode?.toLowerCase() === governorate?.code.toLowerCase()
+    );
     if (!stat) return 'CYAN';
     return stat.statusColor;
   };
@@ -87,7 +90,9 @@ export default function IraqSvgMap({
   const viewBoxY = (800 - viewBoxHeight) / 2;
 
   const hoveredStat = hoveredGov
-    ? provinceStats.find((s) => s.provinceId === hoveredGov.id)
+    ? provinceStats.find(
+        (s) => s.provinceId === hoveredGov.id || s.provinceCode?.toLowerCase() === hoveredGov.code.toLowerCase()
+      )
     : null;
 
   return (

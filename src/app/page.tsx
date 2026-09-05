@@ -177,6 +177,7 @@ export default function DashboardPage() {
 
       return {
         provinceId: prov.id,
+        provinceCode: prov.code,
         provinceName: prov.name,
         provinceNameAr: prov.name_ar,
         activeCases: provActiveCases.length,
