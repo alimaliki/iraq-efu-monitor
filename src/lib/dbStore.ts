@@ -186,7 +186,13 @@ class DatabaseStore {
       const pA = priorityOrder[a.priority] || 1;
       const pB = priorityOrder[b.priority] || 1;
       if (pB !== pA) return pB - pA;
-      return new Date(b.created_at).getTime() - new Date(a.created_at).getTime();
+
+      const aOverdue = isCaseActive(a) && nowMs - new Date(a.created_at).getTime() >= 4 * 3600 * 1000;
+      const bOverdue = isCaseActive(b) && nowMs - new Date(b.created_at).getTime() >= 4 * 3600 * 1000;
+      if (aOverdue !== bOverdue) return bOverdue ? 1 : -1;
+
+      // Older cases have waited longer and should be handled first within the same priority.
+      return new Date(a.created_at).getTime() - new Date(b.created_at).getTime();
     });
 
     return {
