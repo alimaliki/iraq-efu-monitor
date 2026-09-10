@@ -106,3 +106,23 @@ npm run dev
 # Run production build
 npm run build
 ```
+
+## 🚀 Streamlit Cloud Deployment
+
+The Streamlit version of the operational dashboard is in [`streamlit_app.py`](streamlit_app.py).
+It reads cases and provinces from Supabase and is separate from the full Next.js/Telegram application.
+
+1. Push this repository to GitHub.
+2. In Streamlit Cloud, choose **New app** and select this repository.
+3. Set the main file path to `streamlit_app.py`.
+4. Add these values under **App settings > Secrets**:
+
+```toml
+SUPABASE_URL = "https://your-project.supabase.co"
+SUPABASE_KEY = "your-supabase-anon-key"
+```
+
+5. Deploy. Streamlit Cloud installs the packages from [`requirements.txt`](requirements.txt).
+
+The original Next.js app remains deployable on Vercel, Render, or Railway. Telegram webhook and
+write/admin workflows are not included in the Streamlit dashboard yet.
